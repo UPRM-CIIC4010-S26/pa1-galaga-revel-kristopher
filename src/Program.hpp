@@ -30,6 +30,9 @@ class Program {
         void Update();
         void Draw();
         void ManageEnemyRespawns();
+        // Added this helper function for reusability
+        void InitializeGameState();
+        // Yeah...
         void DrawStartup();
         void DrawPauseScreen();
         void DrawGameOver();

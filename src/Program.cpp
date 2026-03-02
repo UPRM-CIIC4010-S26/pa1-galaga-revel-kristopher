@@ -1,6 +1,7 @@
 #include "Program.hpp"
 
-Program::Program() {
+// Added helper for reusability
+void Program::InitializeGameState(){
     Background::sideWalls = std::pair<HitBox, HitBox>{ 
         HitBox(0, 0, 10, GetScreenHeight()), 
         HitBox(GetScreenWidth() - 10, 0, 10, GetScreenHeight())
@@ -25,6 +26,10 @@ Program::Program() {
             new StdEnemy(x, y)
         });
     }
+}
+
+Program::Program() {
+    InitializeGameState();
 }
 
 void Program::Update() {
@@ -57,10 +62,11 @@ void Program::Update() {
 
         for (Projectile& p : Projectile::projectiles) { 
             p.update(); 
-            if (p.ID != 0 && HitBox::Collision(player->hitBox, p.getHitBox()))
+             if (p.ID != 0 && HitBox::Collision(player->hitBox, p.getHitBox()))
             {
                 PlayerReset();
             }
+
         }
 
         if (lives <= 0 && pauseFrames <= 0) gameOver = true;
@@ -190,4 +196,6 @@ void Program::Reset() {
     count = 0;
     delay = 0;
     lives = 3;
+
+    InitializeGameState();
 }
