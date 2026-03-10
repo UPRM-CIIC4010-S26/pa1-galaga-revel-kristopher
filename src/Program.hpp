@@ -20,6 +20,7 @@ class Program {
         int lives = 3;
         int pauseFrames = 0;
         int score = 0;
+        int giveLife = 1000;
         
         bool startup = true;
         bool paused = false;
@@ -34,6 +35,7 @@ class Program {
         // Added this helper function for reusability
         void InitializeGameState();
         // Yeah...
+        void LifeGain();
         void DrawStartup();
         void DrawPauseScreen();
         void DrawGameOver();

@@ -163,7 +163,8 @@ void Program::KeyInputs() {
     if (IsKeyPressed('H')) HitBox::drawHitbox = !HitBox::drawHitbox;
     if (IsKeyPressed('K')){
         score+= 500;
-        std::cout<<score;
+        std::cout<<score<<std::endl;
+        LifeGain();
     }
     if (gameOver && IsKeyPressed(KEY_ENTER)) {
         gameOver = false;
@@ -191,6 +192,20 @@ void Program::PlayerReset() {
     lives--;
 }
 
+void Program::LifeGain() {
+    if (score == giveLife)
+    {
+        if (lives <= 5)
+        {
+            lives += 1;
+        }
+        
+        giveLife += 1000;
+        std::cout << lives << std::endl;
+    }
+    
+}
+
 void Program::Reset() {
     Enemy::enemies.clear();
     StdEnemy::attackInProgress = false;
@@ -200,6 +215,8 @@ void Program::Reset() {
     count = 0;
     delay = 0;
     lives = 3;
+    score = 0;
+    int giveLife = 1000;
 
     InitializeGameState();
 }
