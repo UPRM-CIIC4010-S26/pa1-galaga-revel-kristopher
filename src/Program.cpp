@@ -206,6 +206,7 @@ void Program::LifeGain() {
     
 }
 
+
 void Program::Reset() {
     Enemy::enemies.clear();
     StdEnemy::attackInProgress = false;
