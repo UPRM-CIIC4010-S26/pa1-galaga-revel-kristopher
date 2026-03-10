@@ -6,9 +6,7 @@ void DyEnemy::draw() {
     DrawTexturePro(ImageManager::SpriteSheet, texture, 
                 Rectangle{this->position.first + 15, this->position.second + 15, 30, 30}, 
                 Vector2{15, 15}, this->aimAngle, WHITE);
-
 }
-
 
 void DyEnemy::update(std::pair<float, float> pos, HitBox target) {
     this->cooldown--;

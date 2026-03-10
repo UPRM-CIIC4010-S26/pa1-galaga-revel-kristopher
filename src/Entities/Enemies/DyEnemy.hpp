@@ -17,7 +17,6 @@ class DyEnemy : public Enemy {
                 texture = {2, 128, 13, 14};
             }
         }
-
         void draw() override;
         void update(std::pair<float, float> pos, HitBox target) override;
         void attack(HitBox target) override;
