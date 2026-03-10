@@ -21,6 +21,7 @@ class Program {
         int pauseFrames = 0;
         int score = 0;
         int giveLife = 1000;
+        int respawn_rate = 0;
         
         bool startup = true;
         bool paused = false;

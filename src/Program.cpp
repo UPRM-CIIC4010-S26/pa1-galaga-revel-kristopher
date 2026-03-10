@@ -33,6 +33,10 @@ Program::Program() {
 }
 
 void Program::Update() {
+    // respawn rate 
+    respawn_rate = score / 500;
+    respawn_rate = std::min(respawn_rate, 5);
+
     for (Animation& a : Animation::animations) a.update();
     for (int i = 0; i < Animation::animations.size(); i++) {
         if (Animation::animations[i].done) Animation::animations.erase(Animation::animations.begin() + i);
@@ -98,7 +102,29 @@ void Program::Draw() {
 void Program::ManageEnemyRespawns() {
     delay = std::max(delay - 1, 0);
 
-    respawnCooldown -= 1;
+    switch (respawn_rate)
+    {
+    case 0:
+        respawnCooldown -= 1;
+        break;
+
+    case 1:
+        respawnCooldown -= 2;
+        break;
+
+    case 2:
+        respawnCooldown -= 3;
+        break;
+    
+    case 3:
+        respawnCooldown -= 4;
+        break;
+    
+    default:
+    respawnCooldown -= 5;
+        break;
+    }
+
     if (respawnCooldown <= 0) {
         respawnCooldown = 1080;
         for (std::pair<std::pair<float, float>, Enemy*>& p : Enemy::enemies) {
@@ -193,11 +219,11 @@ void Program::PlayerReset() {
 }
 
 void Program::LifeGain() {
-    if (score == giveLife)
+    if (score >= giveLife)
     {
-        if (lives <= 5)
+        if (lives < 5)
         {
-            lives += 1;
+            lives ++;
         }
         
         giveLife += 1000;
@@ -217,7 +243,7 @@ void Program::Reset() {
     delay = 0;
     lives = 3;
     score = 0;
-    int giveLife = 1000;
+    giveLife = 1000;
 
     InitializeGameState();
 }
