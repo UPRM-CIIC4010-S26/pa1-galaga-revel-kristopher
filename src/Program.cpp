@@ -28,6 +28,7 @@ void Program::InitializeGameState(){
     }
 }
 
+
 Program::Program() {
     InitializeGameState();
 }
@@ -37,6 +38,13 @@ void Program::Update() {
     respawn_rate = score / 500;
     respawn_rate = std::min(respawn_rate, 5);
 
+    // life give gain
+    if (showLifetext)
+{
+    lifeTextTimer--;
+    if (lifeTextTimer <= 0) showLifetext = false;
+}
+
     for (Animation& a : Animation::animations) a.update();
     for (int i = 0; i < Animation::animations.size(); i++) {
         if (Animation::animations[i].done) Animation::animations.erase(Animation::animations.begin() + i);
@@ -44,10 +52,11 @@ void Program::Update() {
     pauseFrames = std::max(pauseFrames - 1, 0);
 
     if (!startup && !paused && !gameOver && pauseFrames <= 0) {
-        Enemy::ManageEnemies(player->hitBox);
+        Enemy::ManageEnemies(player->hitBox, score);
         StdEnemy::attackReset();
         ManageEnemyRespawns();
         player->update();
+        LifeGain();
 
         for (std::pair<std::pair<float, float>, Enemy*> p : Enemy::enemies) {
             if (p.second && HitBox::Collision(player->hitBox, p.second->hitBox)) {
@@ -81,15 +90,28 @@ void Program::Update() {
 
 void Program::Draw() {
     background.Draw();
-    if (pauseFrames <= 0 && !gameOver) player->draw();
-    for (Animation& a : Animation::animations) a.draw();
 
-    for (int i = 0; i < lives; i++) {
-         DrawTexturePro(ImageManager::SpriteSheet, Rectangle{0, 0, 17, 18}, 
-                   Rectangle{10.0f + i * 30, GetScreenHeight() - 30.0f, 20, 20}, 
-                   Vector2{0, 0}, 0, WHITE);
+    // life gain text
+    if (showLifetext)
+{
+    DrawText("+1 Life", GetScreenWidth() / 2 - 50, 50, 30, GREEN);
+}
+
+    // score display and life
+
+    if (!startup)
+    {
+        DrawText(("Score: " + std::to_string(score)).c_str(), 10, 10, 20, WHITE);
+        if (pauseFrames <= 0 && !gameOver) player->draw();
+        for (Animation& a : Animation::animations) a.draw();
+
+          for (int i = 0; i < lives; i++) {
+         DrawTexturePro(ImageManager::SpriteSheet, Rectangle{0.0f, 0.0f, 17.0f, 18.0f},           // same as player sprite
+            Rectangle{10.0f + i * 30.0f, 35.0f, 20.0f, 20.0f}, // position in corner, scaled smaller
+            Vector2{0.0f, 0.0f}, 0.0f, RED);
+        }
     }
-
+    
 
     for (Projectile p : Projectile::projectiles) p.draw();
     for (std::pair<std::pair<float, float>, Enemy*>& p : Enemy::enemies) if (p.second) p.second->draw();
@@ -189,7 +211,6 @@ void Program::KeyInputs() {
     if (IsKeyPressed('H')) HitBox::drawHitbox = !HitBox::drawHitbox;
     if (IsKeyPressed('K')){
         score+= 500;
-        std::cout<<score<<std::endl;
         LifeGain();
     }
     if (gameOver && IsKeyPressed(KEY_ENTER)) {
@@ -224,10 +245,11 @@ void Program::LifeGain() {
         if (lives < 5)
         {
             lives ++;
+            showLifetext = true;
+            lifeTextTimer = 60;
         }
         
         giveLife += 1000;
-        std::cout << lives << std::endl;
     }
     
 }

@@ -10,6 +10,7 @@ class StdEnemy : public Enemy {
 
     public:
         inline static bool attackInProgress = false;
+        int pointVal = 120;
 
         StdEnemy(float x, float y) : Enemy(x, y) { 
             this->cooldown = GetRandomValue(240, 1380);
@@ -25,6 +26,7 @@ class StdEnemy : public Enemy {
         void draw() override;
         void update(std::pair<float, float> pos, HitBox target) override;
         void attack(HitBox target) override;
+        int getScore() override {return pointVal; }
 
         static void attackReset() {
             if (attackInProgress) {

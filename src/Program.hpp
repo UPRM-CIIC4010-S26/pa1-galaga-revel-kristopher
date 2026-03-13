@@ -19,16 +19,19 @@ class Program {
         int delay = 0;
         int lives = 3;
         int pauseFrames = 0;
-        int score = 0;
         int giveLife = 1000;
         int respawn_rate = 0;
+        int lifeTextTimer = 0;
         
         bool startup = true;
         bool paused = false;
         bool gameOver = false;
+        bool showLifetext = false;
 
     public:
         Program();
+
+        int score = 0;
         
         void Update();
         void Draw();

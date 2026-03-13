@@ -8,6 +8,7 @@ class DyEnemy : public Enemy {
         bool loop = false;
         Rectangle texture;
     public:
+    int pointVal = 50;
         DyEnemy(float x, float y) : Enemy(x, y) { 
             this->cooldown = GetRandomValue(90, 300);
             this->health = 1; 
@@ -20,4 +21,6 @@ class DyEnemy : public Enemy {
         void draw() override;
         void update(std::pair<float, float> pos, HitBox target) override;
         void attack(HitBox target) override;
+        int getScore() override {return pointVal; }
+        
 };
