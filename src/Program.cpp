@@ -190,12 +190,14 @@ void Program::DrawStartup() {
     DrawRectangle(0, 0, (float)GetScreenWidth(), (float)GetScreenHeight(), Color{0, 0, 0, 125});
     DrawText("Galaga", (GetScreenWidth() / 2 - 237), 75, 144, WHITE);
     DrawText("Press Enter", (GetScreenWidth() / 2) - 75, GetScreenHeight() / 2, 24, GRAY);
+    DrawText("Press G, H or J for cool stuff", (GetScreenWidth() / 2) - 175, GetScreenHeight() / 2 + 30, 24, GREEN);
 }
 
 void Program::DrawPauseScreen() {
     DrawRectangle(0, 0, (float)GetScreenWidth(), (float)GetScreenHeight(), Color{0, 0, 0, 125});
     DrawText("Paused", (GetScreenWidth() / 2) - 85, GetScreenHeight() / 2 - 60, 48, WHITE);
     DrawText("Press Enter", (GetScreenWidth() / 2) - 75, GetScreenHeight() / 2, 24, GRAY);
+    DrawText("Press G, H or J for cool stuff", (GetScreenWidth() / 2) - 175, GetScreenHeight() / 2 + 30, 24, GREEN);
 }
 
 void Program::DrawGameOver() {
@@ -213,6 +215,42 @@ void Program::KeyInputs() {
         score+= 500;
         LifeGain();
     }
+        if (IsKeyPressed('G'))
+    {
+        paused = true;
+        #ifdef __APPLE__
+        system("open https://www.youtube.com/watch?v=XuNeBVetBiw");
+        #elif _WIN32
+        system("start https://www.youtube.com/watch?v=XuNeBVetBiw");
+        #elif __linux__
+        system("xdg-open https://www.youtube.com/watch?v=XuNeBVetBiw");
+        #endif
+    }
+
+     if (IsKeyPressed('J'))
+    {
+        paused = true;
+        #ifdef __APPLE__
+        system("open https://www.youtube.com/watch?v=Inbg9Pcu7u8");
+        #elif _WIN32
+        system("start https://www.youtube.com/watch?v=Inbg9Pcu7u8");
+        #elif __linux__
+        system("xdg-open https://www.youtube.com/watch?v=Inbg9Pcu7u8");
+        #endif
+    }
+
+         if (IsKeyPressed('H'))
+    {
+        paused = true;
+        #ifdef __APPLE__
+        system("open https://www.youtube.com/watch?v=SoQGiq877p0");
+        #elif _WIN32
+        system("start https://www.youtube.com/watch?v=SoQGiq877p0");
+        #elif __linux__
+        system("xdg-open https://www.youtube.com/watch?v=SoQGiq877p0");
+        #endif
+    }
+    
     if (gameOver && IsKeyPressed(KEY_ENTER)) {
         gameOver = false;
         Reset();
